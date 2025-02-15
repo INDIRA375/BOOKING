@@ -1,43 +1,72 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
+import { IconSymbol } from '@/components/ui/IconSymbol'; // Custom Icon component
+import { Colors } from '@/constants/Colors'; // Assuming Colors is a color configuration file
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme(); // Dynamically adjust color scheme
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint, // Active tab color
+        headerShown: false, // Hide header
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
+            height: 60,
+            paddingTop: 10,
           },
-          default: {},
+          android: {
+            height: 70,
+            paddingTop: 15,
+          },
+          default: {
+            height: 60,
+            flexDirection: 'row',  // Arrange tabs horizontally
+            justifyContent: 'space-around',  // Evenly space out the tabs
+            alignItems: 'center',  // Vertically center tabs
+          },
         }),
+        tabBarPosition: 'top', // Positioning tab bar at the top of the page
       }}>
+
+     
       <Tabs.Screen
-        name="index"
+        name="index"  // Home page or Login
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Home',  // Tab title
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="home" color={color} />,  // Home Icon
+        }}
+      /> 
+
+
+     <Tabs.Screen
+        name="service"
+        options={{
+          title: 'Service',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="briefcase" color={color} />,
         }}
       />
+    
+
+      {/* Service Tab */}
       <Tabs.Screen
-        name="explore"
+        name="Book"  // Service tab
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'book',  // Tab title
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paper.fill" color={color} />,  // Paper plane Icon (symbolizing Service)
+        }}
+      />
+
+      {/* Profile Tab */}
+      <Tabs.Screen
+        name="profile"  // Profile screen
+        options={{
+          title: 'Profile',  // Tab title
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person" color={color} />,  // Profile Icon
         }}
       />
     </Tabs>
